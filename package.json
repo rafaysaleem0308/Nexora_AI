@@ -1,0 +1,21 @@
+
+{
+  "name": "nexora-ai",
+  "version": "1.0.0",
+  "private": true,
+  "workspaces": [
+    "apps/web",
+    "apps/api",
+    "packages/shared"
+  ],
+  "scripts": {
+    "dev": "concurrently -k -n WEB,API -c blue,green \"npm run dev:web\" \"npm run dev:api\"",
+    "dev:web": "npm run dev --workspace=@nexora/web",
+    "dev:api": "npm run dev --workspace=@nexora/api",
+    "build": "npm run build --workspace=@nexora/shared && npm run build --workspace=@nexora/api && npm run build --workspace=@nexora/web",
+    "typecheck": "npm run typecheck --workspace=@nexora/shared && npm run typecheck --workspace=@nexora/api && npm run typecheck --workspace=@nexora/web"
+  },
+  "devDependencies": {
+    "concurrently": "^9.0.0"
+  }
+}

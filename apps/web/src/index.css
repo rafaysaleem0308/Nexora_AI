@@ -1,0 +1,305 @@
+@import "tailwindcss";
+
+/* ─── Premium Aurora Mint & Cyber Cyan Design Tokens ─────────────────── */
+@theme {
+  /* Exact core brand palette */
+  --color-nexora-bg: #05080f;
+  --color-nexora-surface: #0a111e;
+  --color-nexora-surface-hover: #0f1a2e;
+  --color-nexora-muted: #8498b5;
+  --color-electric-cyan: #06b6d4;
+  --color-bright-cyan: #22d3ee;
+  --color-cyber-mint: #10b981;
+  --color-mint-highlight: #6ee7b7;
+  --color-ice-white: #f0fdfa;
+  --color-secondary-text: #ccfbf1;
+  --color-glass-border: rgba(45, 212, 191, 0.25);
+
+  /* Typography */
+  --font-family-sans: 'Inter', system-ui, 'Segoe UI', sans-serif;
+  --font-family-syne: 'Syne', system-ui, sans-serif;
+  --font-weight-700: 700;
+  --font-weight-800: 800;
+}
+
+/* ─── Base Reset ─────────────────────────────────────────────────────── */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+/* Consistent dark styling for dashboard text fields and native selects. */
+:where(input:not([type='checkbox']):not([type='radio']):not([type='range']), textarea, select) {
+  color: #f0fdfa;
+  color-scheme: dark;
+  caret-color: #22d3ee;
+}
+
+:where(input:not([type='checkbox']):not([type='radio']):not([type='range']), textarea)::placeholder {
+  color: #8498b5;
+  opacity: 1;
+}
+
+:where(input:not([type='checkbox']):not([type='radio']):not([type='range']), textarea, select):disabled {
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+textarea:-webkit-autofill,
+select:-webkit-autofill {
+  -webkit-text-fill-color: #f0fdfa;
+  box-shadow: 0 0 0 1000px #0a111e inset;
+  transition: background-color 99999s ease-out;
+}
+
+html {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+  scroll-behavior: smooth;
+  color-scheme: dark;
+  /* Prevent layout shift from scrollbar appearing */
+  scrollbar-gutter: stable;
+}
+
+body {
+  margin: 0;
+  background: #05080f;
+  color: #f0fdfa;
+  font-family: 'Inter', system-ui, 'Segoe UI', sans-serif;
+  font-size: 16px;
+  line-height: 1.6;
+  overflow-x: hidden;
+}
+
+/* ─── Custom Scrollbar ───────────────────────────────────────────────── */
+::-webkit-scrollbar {
+  width: 6px;
+}
+::-webkit-scrollbar-track {
+  background: #05080f;
+}
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(180deg, #06b6d4, #10b981);
+  border-radius: 999px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(180deg, #22d3ee, #6ee7b7);
+}
+
+#root {
+  width: 100%;
+  min-height: 100svh;
+}
+
+/* ─── Subtle noise texture overlay ──────────────────────────────────── */
+#root::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  pointer-events: none;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E");
+  opacity: 0.022;
+  background-repeat: repeat;
+  background-size: 128px 128px;
+}
+
+/* ─── Section Container ──────────────────────────────────────────────── */
+.section-container {
+  max-width: 80rem;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: 1rem;
+  padding-right: 1rem;
+}
+
+@media (min-width: 640px) {
+  .section-container {
+    padding-left: 1.5rem;
+    padding-right: 1.5rem;
+  }
+}
+
+@media (min-width: 1024px) {
+  .section-container {
+    padding-left: 2rem;
+    padding-right: 2rem;
+  }
+}
+
+/* ─── Reduced-motion Support ────────────────────────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* ─── Global Focus Ring ──────────────────────────────────────────────── */
+:focus-visible {
+  outline: 2px solid #22d3ee;
+  outline-offset: 3px;
+  border-radius: 6px;
+}
+
+/* ─── Animated Aurora Gradient Text ──────────────────────────────────── */
+@keyframes text-shimmer {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+.text-gradient-aurora {
+  background: linear-gradient(
+    135deg,
+    #ffffff 0%,
+    #a5f3fc 20%,
+    #22d3ee 45%,
+    #10b981 75%,
+    #6ee7b7 100%
+  );
+  background-size: 240% auto;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  animation: text-shimmer 7s ease infinite;
+}
+
+/* ─── Glowing border animation for highlight cards ───────────────────── */
+@keyframes border-glow {
+  0%, 100% { border-color: rgba(34, 211, 238, 0.35); }
+  50% { border-color: rgba(110, 231, 183, 0.55); }
+}
+
+.border-glow-animate {
+  animation: border-glow 3s ease-in-out infinite;
+}
+
+/* ─── Button Components ──────────────────────────────────────────────── */
+.btn-primary {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.875rem 2rem;
+  border-radius: 0.875rem;
+  font-family: 'Inter', system-ui, sans-serif;
+  font-size: 0.95rem;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  color: #041316;
+  background: linear-gradient(135deg, #22d3ee 0%, #14b8a6 50%, #10b981 100%);
+  border: 1px solid rgba(255, 255, 255, 0.4);
+  cursor: pointer;
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  box-shadow:
+    0 4px 25px rgba(20, 184, 166, 0.45),
+    0 1px 2px rgba(0, 0, 0, 0.3),
+    inset 0 1px 1px rgba(255, 255, 255, 0.6);
+  text-decoration: none;
+  overflow: hidden;
+}
+
+.btn-primary::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(255, 255, 255, 0.35) 50%,
+    transparent 100%
+  );
+  transition: left 0.6s ease;
+}
+
+.btn-primary:hover {
+  transform: translateY(-2px);
+  box-shadow:
+    0 8px 35px rgba(34, 211, 238, 0.55),
+    0 2px 4px rgba(0, 0, 0, 0.4),
+    inset 0 1px 1px rgba(255, 255, 255, 0.8);
+  border-color: rgba(255, 255, 255, 0.7);
+}
+
+.btn-primary:hover::before {
+  left: 100%;
+}
+
+.btn-primary:active {
+  transform: translateY(0);
+  box-shadow: 0 4px 15px rgba(20, 184, 166, 0.4);
+}
+
+.btn-ghost {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.875rem 2rem;
+  border-radius: 0.875rem;
+  font-family: 'Inter', system-ui, sans-serif;
+  font-size: 0.95rem;
+  font-weight: 500;
+  letter-spacing: -0.01em;
+  color: #ccfbf1;
+  background: rgba(20, 184, 166, 0.07);
+  border: 1px solid rgba(45, 212, 191, 0.25);
+  backdrop-filter: blur(12px);
+  cursor: pointer;
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  text-decoration: none;
+}
+
+.btn-ghost:hover {
+  background: rgba(20, 184, 166, 0.16);
+  border-color: rgba(34, 211, 238, 0.45);
+  color: #ffffff;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 22px rgba(6, 182, 212, 0.2);
+}
+
+.btn-ghost:active {
+  transform: translateY(0);
+}
+
+/* ─── Glass Badges & Panels ──────────────────────────────────────────── */
+.glass-panel {
+  background: rgba(10, 17, 30, 0.65);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(45, 212, 191, 0.2);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.45);
+}
+
+.glass-card-hover {
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.glass-card-hover:hover {
+  transform: translateY(-3px);
+  border-color: rgba(34, 211, 238, 0.4);
+  box-shadow: 0 12px 35px rgba(6, 182, 212, 0.15), 0 0 1px rgba(110, 231, 183, 0.3);
+}
+
+/* ─── Divider gradient line ──────────────────────────────────────────── */
+.divider-aurora {
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(34, 211, 238, 0.3), rgba(16, 185, 129, 0.3), transparent);
+}
+
+/* ─── Font Helper ────────────────────────────────────────────────────── */
+.font-syne {
+  font-family: 'Syne', system-ui, sans-serif;
+}

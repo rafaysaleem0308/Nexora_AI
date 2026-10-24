@@ -1,0 +1,20 @@
+import cors from "cors";
+import express from "express";
+import rateLimit from "express-rate-limit";
+import helmet from "helmet";
+import { pinoHttp } from "pino-http";
+import { env } from "./config/env.js";
+import { errorHandler } from "./middleware/error-handler.js";
+import { notFoundHandler } from "./middleware/not-found.js";
+import { healthRouter } from "./routes/health.routes.js";
+
+export const app = express();
+app.disable("x-powered-by");
+app.use(helmet());
+app.use(cors({ origin: env.CLIENT_URL }));
+app.use(express.json({ limit: "1mb" }));
+app.use(pinoHttp({ redact: ["req.headers.authorization", "req.headers.cookie"] }));
+app.use("/api", rateLimit({ windowMs: 15 * 60 * 1000, limit: 100, standardHeaders: "draft-7", legacyHeaders: false }));
+app.use("/api/health", healthRouter);
+app.use(notFoundHandler);
+app.use(errorHandler);
